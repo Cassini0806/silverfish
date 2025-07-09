@@ -1,12 +1,16 @@
 import click
+import json
 
 # Lista simulando uma estante de livros
-estante = [
-    "livro0",
-    "livro1",
-    "livro2",
-    "livro3",
-]
+
+#carrega os dados
+with open("estante.json", "r", encoding="utf-8") as arquivo:
+    estante =  json.load(arquivo)
+
+#funcao de salvar dados
+def salvar():
+    with open("estante.json", "w", encoding="utf-8") as f:
+        json.dump(estante, f, ensure_ascii=False, indent=4)
 
 @click.group()
 def cli():
@@ -26,6 +30,7 @@ def adicionar(nome):
     """Adiciona um livro à estante."""
     estante.append(nome)
     click.echo(f"Livro '{nome}' adicionado à estante.")
+    salvar()
 
 @cli.command()
 @click.argument('nome')
@@ -34,6 +39,7 @@ def remover(nome):
     if nome in estante:
         estante.remove(nome)
         click.echo(f"Livro '{nome}' removido.")
+        salvar()
     else:
         click.echo("Livro não encontrado.")
 
