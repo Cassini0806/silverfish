@@ -28,9 +28,13 @@ def listar():
 @click.argument('nome')
 def adicionar(nome):
     """Adiciona um livro à estante."""
-    estante.append(nome)
-    click.echo(f"Livro '{nome}' adicionado à estante.")
-    salvar()
+    if nome in estante:
+        click.echo(f"Livro '{nome}' já exite na estante.")
+    else:
+        estante.append(nome)
+        estante.sort()
+        click.echo(f"Livro '{nome}' adicionado à estante.")
+        salvar()
 
 @cli.command()
 @click.argument('nome')
